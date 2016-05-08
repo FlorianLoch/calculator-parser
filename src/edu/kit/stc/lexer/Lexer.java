@@ -56,6 +56,8 @@ public class Lexer {
             }
         }
 
+        tokens.add(new EOFToken(this.position));
+
         return tokens;
     }
 

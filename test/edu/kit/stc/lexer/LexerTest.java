@@ -4,7 +4,6 @@ package edu.kit.stc.lexer;
 import edu.kit.stc.lexer.exception.LException;
 import edu.kit.stc.vocabulary.terminal.Token;
 
-import java.util.ArrayList;
 import java.util.Queue;
 
 import static org.junit.Assert.*;
