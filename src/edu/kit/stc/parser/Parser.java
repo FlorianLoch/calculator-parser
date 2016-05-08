@@ -30,21 +30,21 @@ public class Parser {
 	};
 	
 	public AstNode parseEA(AstNode node){
-		if(expectPlus()){
+		if(expect(PlusToken.class)){
 			tokens.poll();
 			AstNode right = parseT();
 			node = new PlusNode(node, right);
 			return parseEA(node);
 		}
 		
-		if(expectMult()){
+		if(expect(MultToken.class)){
 			tokens.poll();
 			AstNode right = parseT();
 			node = new MultNode(node, right);
 			return parseEA(node);
 		}			
 		
-		if(expectEOF()){
+		if(expect(EOFToken.class)){
 			tokens.poll();
 			return node;
 		}
@@ -58,21 +58,21 @@ public class Parser {
 	};
 	
 	public AstNode parseTA(AstNode node){
-		if(expectMult()){
+		if(expect(MultToken.class)){
 			tokens.poll();
 			AstNode right = parseF();
 			node = new MultNode(node, right);
 			return parseTA(node);
 		}
 		
-		if(expectDiv()){
+		if(expect(DivToken.class)){
 			tokens.poll();
 			AstNode right = parseF();
 			node = new DivNode(node, right);
 			return parseTA(node);
 		}
 		
-		if(expectPlus() || expectMinus() || expectEOF()){
+		if(expect(PlusToken.class) || expect(MinusToken.class) || expect(EOFToken.class)){
 			tokens.poll();
 			return node;
 		}
@@ -82,16 +82,16 @@ public class Parser {
 	};
 	
 	public AstNode parseF(){
-		if(expectPOpen()){
+		if(expect(POpenToken.class)){
 			tokens.poll();
 			AstNode node = parseE();
-			if(expectPClose()){
+			if(expect(PCloseToken.class)){
 				tokens.poll();
 				return node;
 			}
 		}
 		
-		if(expectNumber()){
+		if(expect(NumberToken.class)){
 			NumberToken number = (NumberToken) tokens.poll();
 			return new NumberNode(number);
 		}	
@@ -100,28 +100,7 @@ public class Parser {
 		return null;
 	};
 	
-	public boolean expectPlus(){
-		return tokens.element() instanceof PlusToken;
-	}
-	public boolean expectMinus(){
-		return tokens.element() instanceof MinusToken;
-	}
-	public boolean expectDiv(){
-		return tokens.element() instanceof DivToken;
-	}
-	public boolean expectMult(){
-		return tokens.element() instanceof MultToken;
-	}
-	private boolean expectPOpen() {
-		return tokens.element() instanceof POpenToken;
-	}
-	private boolean expectPClose() {
-		return tokens.element() instanceof PCloseToken;
-	}
-	private boolean expectNumber() {
-		return tokens.element() instanceof NumberToken;
-	}
-	private boolean expectEOF() {
-		return tokens.element() instanceof EOFToken;
+	public boolean expect(Class c){
+		return c.isInstance(tokens.element());
 	}
 }
