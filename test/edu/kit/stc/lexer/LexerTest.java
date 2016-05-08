@@ -1,9 +1,10 @@
 package edu.kit.stc.lexer;
 
 
+import edu.kit.stc.lexer.exception.LException;
 import edu.kit.stc.vocabulary.terminal.Token;
 
-import java.util.ArrayList;
+import java.util.Queue;
 
 import static org.junit.Assert.*;
 
@@ -12,12 +13,47 @@ import static org.junit.Assert.*;
  */
 public class LexerTest {
     @org.junit.Test
-    public void testLex() throws Exception {
-        final String SAMPLE_INPUT = "abc(56.23e45L+42.)/";
+    public void simpleArithOperands() throws Exception {
+        final String SAMPLE_INPUT = "-+==*/";
 
         Lexer lxr = new Lexer(SAMPLE_INPUT);
 
-        ArrayList<Token> tokens = lxr.lex();
+        Queue<Token> tokens = lxr.lex();
+
+        for (Token t : tokens) {
+            System.out.println(t.toString());
+        }
+    }
+
+    @org.junit.Test(expected = LException.class)
+    public void faultyFloat() throws Exception {
+        final String SAMPLE_INPUT = "42";
+
+        Lexer lxr = new Lexer(SAMPLE_INPUT);
+
+        lxr.lex();
+    }
+
+    @org.junit.Test
+    public void floatWithNachkommaanteil() throws Exception {
+        final String SAMPLE_INPUT = "42.42l";
+
+        Lexer lxr = new Lexer(SAMPLE_INPUT);
+
+        Queue<Token> tokens = lxr.lex();
+
+        for (Token t : tokens) {
+            System.out.println(t.toString());
+        }
+    }
+
+    @org.junit.Test
+    public void complexFloatWithExponent() throws Exception {
+        final String SAMPLE_INPUT = "42.41e-14L";
+
+        Lexer lxr = new Lexer(SAMPLE_INPUT);
+
+        Queue<Token> tokens = lxr.lex();
 
         for (Token t : tokens) {
             System.out.println(t.toString());

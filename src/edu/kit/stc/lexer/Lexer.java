@@ -4,6 +4,9 @@ import edu.kit.stc.lexer.exception.EndOfFileException;
 import edu.kit.stc.lexer.exception.LException;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import edu.kit.stc.vocabulary.terminal.*;
 
@@ -23,8 +26,8 @@ public class Lexer {
         return this.input.charAt(this.position++);
     }
 
-    public ArrayList<Token> lex() throws LException {
-        ArrayList<Token> tokens = new ArrayList<Token>();
+    public Queue<Token> lex() throws LException {
+        Queue<Token> tokens = new LinkedList<Token>();
 
         while (this.position < this.input.length()) {
             char c = this.nextChar();
@@ -52,6 +55,8 @@ public class Lexer {
                 tokens.add(flt);
             }
         }
+
+        tokens.add(new EOFToken(this.position));
 
         return tokens;
     }
