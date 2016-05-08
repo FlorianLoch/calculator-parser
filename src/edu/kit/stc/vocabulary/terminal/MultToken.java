@@ -6,4 +6,8 @@ public class MultToken extends Token{
 		super("*", position);
 	}
 
+	@Override
+	public String toString() {
+		return "MultToken at " + super.position + ".\n\tRaw value: " + super.rawValue;
+	}
 }

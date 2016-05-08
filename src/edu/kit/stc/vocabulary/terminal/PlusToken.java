@@ -6,4 +6,8 @@ public class PlusToken extends Token {
 		super("+", position);	
 	}
 
+	@Override
+	public String toString() {
+		return "PlusToken at " + super.position + ".\n\tRaw value: " + super.rawValue;
+	}
 }

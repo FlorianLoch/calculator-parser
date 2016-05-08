@@ -6,4 +6,8 @@ public class POpenToken extends Token{
 		super("(", position);
 	}
 
+	@Override
+	public String toString() {
+		return "POpenToken at " + super.position + ".\n\tRaw value: " + super.rawValue;
+	}
 }

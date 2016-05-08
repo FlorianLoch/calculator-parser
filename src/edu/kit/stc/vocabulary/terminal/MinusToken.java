@@ -6,4 +6,8 @@ public class MinusToken extends Token{
 		super("-", position);
 	}
 
+	@Override
+	public String toString() {
+		return "MinusToken at " + super.position + ".\n\tRaw value: " + super.rawValue;
+	}
 }
