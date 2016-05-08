@@ -1,6 +1,8 @@
-package edu.kit.stc.lexer.token;
+package edu.kit.stc.vocabulary.terminal;
 
-public abstract class Token {
+import edu.kit.stc.vocabulary.Vocable;
+
+public abstract class Token extends Vocable{
 	public final String rawValue;
 	public final int position;
 	

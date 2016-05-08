@@ -1,7 +1,8 @@
 package edu.kit.stc.lexer;
 
-import edu.kit.stc.lexer.token.Token;
 import java.util.ArrayList;
+
+import edu.kit.stc.vocabulary.terminal.Token;
 
 public class Lexer {
     private int position = 0;

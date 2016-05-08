@@ -1,4 +1,4 @@
-package edu.kit.stc.lexer.token;
+package edu.kit.stc.vocabulary.terminal;
 
 public class NumberToken extends Token{
 
