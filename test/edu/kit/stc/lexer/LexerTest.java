@@ -2,6 +2,7 @@ package edu.kit.stc.lexer;
 
 
 import edu.kit.stc.lexer.exception.LException;
+import edu.kit.stc.vocabulary.terminal.NumberToken;
 import edu.kit.stc.vocabulary.terminal.Token;
 
 import java.util.Queue;
@@ -57,6 +58,9 @@ public class LexerTest {
 
         for (Token t : tokens) {
             System.out.println(t.toString());
+            if (t instanceof NumberToken) {
+                System.out.println(">> " + ((NumberToken) t).toFloat());
+            }
         }
     }
 }

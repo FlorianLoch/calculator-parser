@@ -1,6 +1,9 @@
 package edu.kit.stc.vocabulary.terminal;
 
-public class NumberToken extends Token{
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+
+public class NumberToken extends Token {
 
 	public final String lhs;
 	public final String rhs;
@@ -18,5 +21,15 @@ public class NumberToken extends Token{
 	@Override
 	public String toString() {
 		return "NumberToken at " + super.position + ".\n\tRaw value: " + super.rawValue + "\n\tLHS: " + this.lhs + ", RHS: " + this.rhs + ", Exp: " + this.exp + ", Type: " + this.type;
+	}
+
+	public float toFloat() {
+		DecimalFormat formatter = (DecimalFormat) DecimalFormat.getNumberInstance();
+
+//		char decimalSeparator = formatter.getDecimalFormatSymbols().getDecimalSeparator();
+//		String expSeparator = formatter.getDecimalFormatSymbols().getExponentSeparator();
+		String expValue = (this.exp.isEmpty()) ? "0" : this.exp;
+
+		return Float.parseFloat(this.lhs + "." + this.rhs + "E" + expValue);
 	}
 }
