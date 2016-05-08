@@ -2,8 +2,13 @@ package edu.kit.stc.parser;
 
 import java.util.Queue;
 
-import edu.kit.stc.lexer.Lexer;
+import edu.kit.stc.ast.AstNode;
+import edu.kit.stc.ast.DivNode;
+import edu.kit.stc.ast.MultNode;
+import edu.kit.stc.ast.NumberNode;
+import edu.kit.stc.ast.PlusNode;
 import edu.kit.stc.vocabulary.terminal.DivToken;
+import edu.kit.stc.vocabulary.terminal.EOFToken;
 import edu.kit.stc.vocabulary.terminal.MinusToken;
 import edu.kit.stc.vocabulary.terminal.MultToken;
 import edu.kit.stc.vocabulary.terminal.NumberToken;
@@ -13,59 +18,86 @@ import edu.kit.stc.vocabulary.terminal.PlusToken;
 import edu.kit.stc.vocabulary.terminal.Token;
 
 public class Parser {
-	
-	Queue<Token> tokens;
-	
-	public Parser() {
-		
+	private Queue<Token> tokens;
+	public Parser(Queue<Token> tokens) {
+		this.tokens = tokens;
 	}
 	
-	public void parseE(){
-		parseT();
-		parseEA();
+	public AstNode parseE(){
+		AstNode node = parseT();
+		parseEA(node);
+		return node;
 	};
 	
-	public void parseEA(){
-		if(expectPlus() || expectMinus()){
-			if(expectPlus()){
-				
-			}else{
-				
-			}			
+	public AstNode parseEA(AstNode node){
+		if(expectPlus()){
 			tokens.poll();
-			parseT();
-			parseEA();
-			return;
+			AstNode right = parseT();
+			node = new PlusNode(node, right);
+			return parseEA(node);
 		}
+		
+		if(expectMult()){
+			tokens.poll();
+			AstNode right = parseT();
+			node = new MultNode(node, right);
+			return parseEA(node);
+		}			
 		
 		if(expectEOF()){
-				
-			return;
+			tokens.poll();
+			return node;
 		}
 		//Exception
+		return node;
 	}
 
-	public void parseT(){
-		parseF();
-		parseTA();
+	public AstNode parseT(){
+		AstNode node = parseF();
+		return parseTA(node);
 	};
 	
-	public void parseTA(){};
+	public AstNode parseTA(AstNode node){
+		if(expectMult()){
+			tokens.poll();
+			AstNode right = parseF();
+			node = new MultNode(node, right);
+			return parseTA(node);
+		}
+		
+		if(expectDiv()){
+			tokens.poll();
+			AstNode right = parseF();
+			node = new DivNode(node, right);
+			return parseTA(node);
+		}
+		
+		if(expectPlus() || expectMinus() || expectEOF()){
+			tokens.poll();
+			return node;
+		}
+
+		//Exception
+		return node;
+	};
 	
-	public void parseF(){
+	public AstNode parseF(){
 		if(expectPOpen()){
 			tokens.poll();
-			parseE();
+			AstNode node = parseE();
 			if(expectPClose()){
 				tokens.poll();
-				return;
+				return node;
 			}
 		}
+		
 		if(expectNumber()){
-			tokens.poll();
-			return;
+			NumberToken number = (NumberToken) tokens.poll();
+			return new NumberNode(number);
 		}	
 		//Exception
+		
+		return null;
 	};
 	
 	public boolean expectPlus(){
