@@ -25,8 +25,7 @@ public class Parser {
 	
 	public AstNode parseE(){
 		AstNode node = parseT();
-		parseEA(node);
-		return node;
+		return parseEA(node);
 	};
 	
 	public AstNode parseEA(AstNode node){
@@ -73,7 +72,7 @@ public class Parser {
 		}
 		
 		if(expect(PlusToken.class) || expect(MinusToken.class) || expect(EOFToken.class)){
-			tokens.poll();
+//			tokens.poll();
 			return node;
 		}
 

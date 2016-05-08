@@ -59,7 +59,7 @@ public class LexerTest {
         for (Token t : tokens) {
             System.out.println(t.toString());
             if (t instanceof NumberToken) {
-                System.out.println(">> " + ((NumberToken) t).toFloat());
+                System.out.println("\tValue: " + ((NumberToken) t).toFloat());
             }
         }
     }

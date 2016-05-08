@@ -11,7 +11,6 @@ public class NumberNode extends LeafNode{
 	
 	@Override
 	public float calculate() {
-		return Float.parseFloat(number.toFloat());
+		return number.toFloat();
 	}
-
 }

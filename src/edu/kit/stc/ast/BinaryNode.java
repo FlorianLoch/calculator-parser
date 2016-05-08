@@ -16,7 +16,9 @@ public abstract class BinaryNode extends InnerNode{
 	
 	@Override
 	public float calculate(){
-		return this.operate(this.getLeftChild().calculate(), this.getRightChild().calculate());
+		float left = this.getLeftChild().calculate();
+		float right = this.getRightChild().calculate();
+		return this.operate(left, right);
 	}
 	
 	public abstract float operate(float left, float right);
