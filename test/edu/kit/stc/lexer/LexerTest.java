@@ -4,6 +4,7 @@ package edu.kit.stc.lexer;
 import edu.kit.stc.vocabulary.terminal.Token;
 
 import java.util.ArrayList;
+import java.util.Queue;
 
 import static org.junit.Assert.*;
 
@@ -17,7 +18,7 @@ public class LexerTest {
 
         Lexer lxr = new Lexer(SAMPLE_INPUT);
 
-        ArrayList<Token> tokens = lxr.lex();
+        Queue<Token> tokens = lxr.lex();
 
         for (Token t : tokens) {
             System.out.println(t.toString());
